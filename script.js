@@ -10,9 +10,15 @@ const targets = {
 };
 
 let players = [
-    { id: 'P', x: 500, y: 500, startX: 500, startY: 500, color: '#f1c40f' },
-    { id: '1B', x: 800, y: 700, startX: 800, startY: 700, color: '#3498db' },
-    { id: 'SS', x: 350, y: 350, startX: 350, startY: 350, color: '#3498db' }
+    { id: 'P',  x: 500, y: 500, startX: 500, startY: 500, color: '#f1c40f' }, // Pitcher
+    { id: 'C',  x: 500, y: 900, startX: 500, startY: 900, color: '#f1c40f' }, // Catcher
+    { id: '1B', x: 800, y: 700, startX: 800, startY: 700, color: '#3498db' }, // 1st Base
+    { id: '2B', x: 650, y: 450, startX: 650, startY: 450, color: '#3498db' }, // 2nd Base
+    { id: '3B', x: 200, y: 700, startX: 200, startY: 700, color: '#3498db' }, // 3rd Base
+    { id: 'SS', x: 350, y: 450, startX: 350, startY: 450, color: '#3498db' }, // Shortstop
+    { id: 'LF', x: 150, y: 200, startX: 150, startY: 200, color: '#2ecc71' }, // Left Field
+    { id: 'CF', x: 500, y: 100, startX: 500, startY: 100, color: '#2ecc71' }, // Center Field
+    { id: 'RF', x: 850, y: 200, startX: 850, startY: 200, color: '#2ecc71' }  // Right Field
 ];
 
 let isDragging = false;
