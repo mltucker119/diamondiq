@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Softball Starter Lab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="ui-layer">
+        <div class="header">
+            <h1>Softball Starter</h1>
+            <p id="scenario-text">Level 1: The 1-3 Force Play</p>
+        </div>
+        <div class="controls">
+            <button class="btn reset" onclick="resetField()">RESET</button>
+            <button class="btn submit" onclick="checkWork()">SUBMIT</button>
+        </div>
+    </div>
+
+    <div id="feedback-modal" class="hidden">
+        <h2 id="feedback-title"></h2>
+        <p id="feedback-msg"></p>
+        <button class="btn" onclick="closeModal()">Try Again</button>
+    </div>
+
+    <canvas id="fieldCanvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
