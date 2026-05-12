@@ -13,6 +13,10 @@
             <p id="scenario-text">Level 1: The 1-3 Force Play</p>
         </div>
         <div class="controls">
+<select id="scenario-select" class="btn" onchange="loadScenario(this.value)">
+    <option value="0">Scenario 1: 1-3 Play</option>
+    <option value="1">Scenario 2: Force at 2nd</option>
+</select>
             <button class="btn reset" onclick="resetField()">RESET</button>
             <button class="btn submit" onclick="checkWork()">SUBMIT</button>
         </div>
