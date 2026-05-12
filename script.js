@@ -23,6 +23,24 @@ let players = [
 
 let isDragging = false;
 let activePlayer = null;
+const playbook = [
+    {
+        title: "The 1-3 Force Play",
+        targets: { 'P': {x: 500, y: 600, r: 60}, '1B': {x: 850, y: 650, r: 60} }
+    },
+    {
+        title: "Force at Second (Runner on 1st)",
+        targets: { 'SS': {x: 500, y: 400, r: 60}, '2B': {x: 650, y: 450, r: 60} }
+    }
+];
+
+let currentScenario = playbook[0];
+
+function loadScenario(index) {
+    currentScenario = playbook[index];
+    document.getElementById('scenario-text').innerText = currentScenario.title;
+    resetField(); // Clears arrows and moves players back
+}
 
 // 2. Core Functions
 function init() {
@@ -40,6 +58,37 @@ function init() {
     canvas.addEventListener('touchend', endDrag);
 
     render();
+function drawField() {
+    // 1. The Grass/Dirt Border (The "Arc")
+    ctx.beginPath();
+    ctx.arc(500 * scale, 900 * scale, 950 * scale, Math.PI, 0); // Outfield fence
+    ctx.strokeStyle = "rgba(255,255,255,0.3)";
+    ctx.stroke();
+
+    // 2. The Infield Dirt Arc
+    ctx.beginPath();
+    ctx.arc(500 * scale, 550 * scale, 450 * scale, 0, Math.PI * 2);
+    ctx.fillStyle = "#d35400"; // Dirt color
+    ctx.globalAlpha = 0.1;
+    ctx.fill();
+    ctx.globalAlpha = 1.0;
+
+    // 3. Pitcher's Circle
+    ctx.beginPath();
+    ctx.arc(500 * scale, 550 * scale, 80 * scale, 0, Math.PI * 2);
+    ctx.strokeStyle = "white";
+    ctx.stroke();
+
+    // 4. Base Lines (Your existing code)
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(500 * scale, 900 * scale); // Home
+    ctx.lineTo(850 * scale, 650 * scale); // 1st
+    ctx.lineTo(500 * scale, 400 * scale); // 2nd
+    ctx.lineTo(150 * scale, 650 * scale); // 3rd
+    ctx.closePath();
+    ctx.stroke();
 }
 
 function resize() {
