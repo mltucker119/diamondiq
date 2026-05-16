@@ -1,23 +1,35 @@
 :root {
     --field-green: #2ed573;
-    --dirt-brown: #eccc68;
-    --ui-dark: rgba(0, 0, 0, 0.8);
+    --dirt-brown: #d35400;
+    --softball-yellow: #ffff00;
 }
 
-body { margin: 0; background: #1e1e1e; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; touch-action: none; }
+body { margin: 0; background: #1e1e1e; font-family: sans-serif; overflow: hidden; touch-action: none; }
 
-#ui-layer { position: absolute; top: 0; left: 0; width: 100%; padding: 15px; z-index: 10; display: flex; justify-content: space-between; color: white; pointer-events: none; }
+#ui-layer { 
+    position: absolute; top: 0; left: 0; width: 100%; 
+    padding: 15px; z-index: 10; display: flex; 
+    justify-content: space-between; color: white; pointer-events: none; 
+}
 
-.btn { pointer-events: auto; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 700; transition: transform 0.1s; }
-.btn:active { transform: scale(0.95); }
+.header h1 { margin: 0; font-size: 1.5rem; color: var(--softball-yellow); }
+.header p { margin: 5px 0; font-size: 0.9rem; opacity: 0.8; }
+
+.controls { display: flex; align-items: center; gap: 10px; pointer-events: auto; }
+
+.btn { 
+    border: none; padding: 10px 15px; border-radius: 6px; 
+    font-weight: bold; cursor: pointer; font-size: 0.8rem;
+}
+
+.select-box { background: #333; color: white; border: 1px solid #555; }
 .reset { background: #747d8c; color: white; }
-.submit { background: #ff4757; color: white; margin-left: 10px; }
-
-canvas { display: block; background: var(--field-green); cursor: crosshair; }
+.submit { background: #ff4757; color: white; }
 
 #feedback-modal {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: white; padding: 30px; border-radius: 15px; text-align: center; z-index: 20;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: white; padding: 30px; border-radius: 15px; text-align: center; 
+    z-index: 20; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 280px;
 }
 .hidden { display: none; }
+canvas { display: block; background: var(--field-green); }
