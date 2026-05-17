@@ -1,13 +1,13 @@
 :root {
-    --field-green: #2ed573;
-    --dirt-brown: #d35400;
+    --field-green: #2ecc71;
+    --dirt-clay: #e67e22;
     --softball-yellow: #ffff00;
     --accent-blue: #3498db;
-    --runner-red: #ff4757;
+    --runner-red: #e74c3c;
     --dark-bg: rgba(26, 26, 26, 0.9);
 }
 
-body { margin: 0; background: #1e1e1e; font-family: system-ui, -apple-system, sans-serif; overflow: hidden; touch-action: none; }
+body { margin: 0; background: #1a1a1a; font-family: system-ui, -apple-system, sans-serif; overflow: hidden; touch-action: none; }
 
 #ui-layer { 
     position: absolute; top: 0; left: 0; width: 100%; 
