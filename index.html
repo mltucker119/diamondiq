@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Diamond IQ - Ballpark Edition</title>
+    <title>Diamond IQ - Aesthetics Boost</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="ui-layer">
-        <div class="header">
+        <div class="header glass">
             <h1>Diamond IQ</h1>
             <div class="scenario-meta">
                 <span id="situation-tag" class="badge">Bases Empty, 0 Outs</span>
                 <p id="scenario-text">Level 1: Ground Ball to Pitcher</p>
             </div>
         </div>
-        <div class="controls">
+        <div class="controls glass">
             <select id="scenario-select" class="btn select-box" onchange="loadScenario(this.value)">
                 <option value="0">Scenario 1: Grounder to P</option>
                 <option value="1">Scenario 2: Force at 2nd</option>
@@ -28,9 +28,11 @@
     </div>
 
     <div id="feedback-modal" class="hidden">
-        <h2 id="feedback-title"></h2>
-        <div id="feedback-msg"></div>
-        <button class="btn reset close-btn" onclick="closeModal()">Return to Field</button>
+        <div class="modal-content">
+            <h2 id="feedback-title"></h2>
+            <div id="feedback-msg"></div>
+            <button class="btn reset close-btn" onclick="closeModal()">Return to Field</button>
+        </div>
     </div>
 
     <canvas id="fieldCanvas"></canvas>
