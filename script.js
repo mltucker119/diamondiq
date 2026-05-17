@@ -3,17 +3,17 @@ const ctx = canvas.getContext('2d');
 const V_SIZE = 1000;
 let scale = 1;
 
-// Perfectly Balanced Lineup Grid
+// Balanced Geometry Base System
 const baseDefense = [
-    { id: 'P',  x: 500, y: 600, col: 'gold' },   // Pitcher (Exact Center)
-    { id: 'C',  x: 500, y: 860, col: 'gold' },   // Catcher (Behind Home)
-    { id: '1B', x: 730, y: 630, col: 'blue' },   // 1B (Standard depth near bag)
-    { id: '2B', x: 620, y: 480, col: 'blue' },   // 2B (Infield slot)
-    { id: '3B', x: 270, y: 630, col: 'blue' },   // 3B (Standard depth near bag)
-    { id: 'SS', x: 380, y: 480, col: 'blue' },   // SS (Infield slot)
-    { id: 'LF', x: 200, y: 220, col: 'green' },  // LF (Deep grass)
-    { id: 'CF', x: 500, y: 130, col: 'green' },  // CF (Deep grass)
-    { id: 'RF', x: 800, y: 220, col: 'green' }   // RF (Deep grass)
+    { id: 'P',  x: 500, y: 600, col: 'gold' },   
+    { id: 'C',  x: 500, y: 860, col: 'gold' },   
+    { id: '1B', x: 730, y: 630, col: 'blue' },   
+    { id: '2B', x: 620, y: 480, col: 'blue' },   
+    { id: '3B', x: 270, y: 630, col: 'blue' },   
+    { id: 'SS', x: 380, y: 480, col: 'blue' },   
+    { id: 'LF', x: 200, y: 220, col: 'green' },  
+    { id: 'CF', x: 500, y: 130, col: 'green' },  
+    { id: 'RF', x: 800, y: 220, col: 'green' }   
 ];
 
 const playbook = [
@@ -78,6 +78,15 @@ const playbook = [
         explanations: { 'LF': "Catches the fly ball and immediately unleashes a deep, powerful throw toward Home Plate.", 'SS': "Acts as the cutoff alignment man stationed halfway down the line between LF and Home.", 'P': "Sprints directly behind the Catcher at Home Plate to back up the deep outfield throw.", 'C': "Anchors Home Plate bag, prepares to catch the ball, and blocks the sliding runner.", 'BALL': "Fires from the Left Fielder all the way home to try and throw out the tagging base runner.", 'R3': "TAG UP! Waits on 3rd base bag until the LF touches the ball, then sprints hard to score at Home." }
     }
 ];
+
+const colorMap = {
+    gold: { top: '#f1c40f', base: '#f39c12' },
+    blue: { top: '#3498db', base: '#2980b9' },
+    green: { top: '#2ecc71', base: '#27ae60' },
+    runner: { top: '#e74c3c', base: '#c0392b' },
+    ball: { top: '#ffff00', base: '#d4d400' }
+};
+
 let currentScenario = playbook[0];
 let players = [];
 let isDragging = false;
@@ -185,7 +194,6 @@ function render() {
 }
 
 function drawField() {
-    // 1. Grass Stripes
     let grassStripes = ctx.createRadialGradient(500*scale, 600*scale, 100*scale, 500*scale, 600*scale, 950*scale);
     grassStripes.addColorStop(0, '#27ae60');
     grassStripes.addColorStop(0.1, '#2ecc71');
@@ -198,13 +206,11 @@ function drawField() {
     ctx.fillStyle = grassStripes;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 2. Uniform Infield Dirt Circle (Centered perfectly on the Pitcher)
     ctx.fillStyle = "#d35400";
     ctx.beginPath();
     ctx.arc(500 * scale, 600 * scale, 245 * scale, 0, Math.PI * 2);
     ctx.fill();
     
-    // Dirt Texture Grain
     for(let i=0; i<60; i++) {
         ctx.fillStyle = Math.random() > 0.5 ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.03)";
         ctx.beginPath();
@@ -214,30 +220,26 @@ function drawField() {
         ctx.fill();
     }
 
-    // 3. True Base Paths & Chalk Lines
     ctx.strokeStyle = "rgba(255,255,255,0.75)"; ctx.lineWidth = 4 * scale;
     ctx.setLineDash([10, 2, 8, 3]);
     ctx.beginPath();
-    ctx.moveTo(500 * scale, 800 * scale); // Home
-    ctx.lineTo(700 * scale, 600 * scale); // 1B
-    ctx.lineTo(500 * scale, 400 * scale); // 2B
-    ctx.lineTo(300 * scale, 600 * scale); // 3B
+    ctx.moveTo(500 * scale, 800 * scale); 
+    ctx.lineTo(700 * scale, 600 * scale); 
+    ctx.lineTo(500 * scale, 400 * scale); 
+    ctx.lineTo(300 * scale, 600 * scale); 
     ctx.closePath(); ctx.stroke();
     ctx.setLineDash([]);
     
-    // Pitcher's Circle
     ctx.lineWidth = 2.5 * scale; ctx.strokeStyle = "rgba(255,255,255,0.8)";
     ctx.beginPath(); ctx.arc(500 * scale, 600 * scale, 65 * scale, 0, Math.PI*2); ctx.stroke();
 
-    // 4. White Bags Alignment
     const baseSize = 16 * scale;
     ctx.fillStyle = "white"; ctx.shadowBlur = 4*scale; ctx.shadowColor = "rgba(0,0,0,0.3)";
-    ctx.fillRect(700 * scale - baseSize/2, 600 * scale - baseSize/2, baseSize, baseSize); // 1B
-    ctx.fillRect(500 * scale - baseSize/2, 400 * scale - baseSize/2, baseSize, baseSize); // 2B
-    ctx.fillRect(300 * scale - baseSize/2, 600 * scale - baseSize/2, baseSize, baseSize); // 3B
+    ctx.fillRect(700 * scale - baseSize/2, 600 * scale - baseSize/2, baseSize, baseSize); 
+    ctx.fillRect(500 * scale - baseSize/2, 400 * scale - baseSize/2, baseSize, baseSize); 
+    ctx.fillRect(300 * scale - baseSize/2, 600 * scale - baseSize/2, baseSize, baseSize); 
     ctx.shadowBlur = 0;
 
-    // 5. Pentagonal Home Plate
     ctx.beginPath();
     ctx.moveTo(500 * scale, 788 * scale);
     ctx.lineTo(512 * scale, 800 * scale);
@@ -339,6 +341,8 @@ function checkWork() {
                 if (p.isBall) name = "Ball Throw";
                 if (p.id === "BR") name = "Batter-Runner (BR)";
                 if (p.id === "R1") name = "Runner on 1st (R1)";
+                if (p.id === "R2") name = "Runner on 2nd (R2)";
+                if (p.id === "R3") name = "Runner on 3rd (R3)";
                 mistakes.push(name);
             }
         }
