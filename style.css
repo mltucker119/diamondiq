@@ -3,6 +3,7 @@
     --dirt-brown: #d35400;
     --softball-yellow: #ffff00;
     --accent-blue: #3498db;
+    --runner-red: #ff4757;
     --dark-bg: rgba(26, 26, 26, 0.9);
 }
 
@@ -11,12 +12,12 @@ body { margin: 0; background: #1e1e1e; font-family: system-ui, -apple-system, sa
 #ui-layer { 
     position: absolute; top: 0; left: 0; width: 100%; 
     padding: 15px; z-index: 10; display: flex; 
-    justify-content: space-between; box-content: border-box; color: white; pointer-events: none; 
+    justify-content: space-between; box-sizing: border-box; color: white; pointer-events: none; 
 }
 
 .header h1 { margin: 0; font-size: 1.4rem; color: var(--softball-yellow); text-shadow: 1px 1px 4px rgba(0,0,0,0.6); }
 .scenario-meta { margin-top: 5px; }
-.badge { background: #ff4757; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+.badge { background: var(--runner-red); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
 #scenario-text { margin: 5px 0 0 0; font-size: 0.95rem; font-weight: 600; opacity: 0.9; }
 
 .controls { display: flex; align-items: center; gap: 8px; pointer-events: auto; padding-right: 30px; }
@@ -42,6 +43,7 @@ body { margin: 0; background: #1e1e1e; font-family: system-ui, -apple-system, sa
 #feedback-msg { margin: 15px 0; font-size: 0.9rem; line-height: 1.4; text-align: left; }
 .explanation-row { margin-bottom: 8px; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 4px; }
 .explanation-row strong { color: var(--accent-blue); }
+.explanation-row strong.runner-label { color: var(--runner-red); }
 .close-btn { width: 100%; margin-top: 10px; background: #2f3542; }
 
 .hidden { display: none; }
