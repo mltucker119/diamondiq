@@ -3,22 +3,35 @@ const ctx = canvas.getContext('2d');
 const V_SIZE = 1000;
 let scale = 1;
 
-// 1. Playbook Setup containing full configurations & explanations
+// Base Lineup Template to prevent repetitive definitions
+const baseDefense = [
+    { id: 'P',  x: 500, y: 550, color: '#f1c40f' },
+    { id: 'C',  x: 500, y: 900, color: '#f1c40f' },
+    { id: '1B', x: 800, y: 700, color: '#3498db' },
+    { id: '2B', x: 650, y: 450, color: '#3498db' },
+    { id: '3B', x: 200, y: 700, color: '#3498db' },
+    { id: 'SS', x: 350, y: 450, color: '#3498db' },
+    { id: 'LF', x: 150, y: 200, color: '#2ecc71' },
+    { id: 'CF', x: 500, y: 100, color: '#2ecc71' },
+    { id: 'RF', x: 850, y: 200, color: '#2ecc71' }
+];
+
+// 1. Scenario Playbook Database
 const playbook = [
     {
         title: "Level 1: Ground Ball to Pitcher",
         situation: "Bases Empty, 0 Outs",
+        // Setup initial overrides or unique runner placements
+        initialSetup: [
+            ...baseDefense,
+            { id: 'BALL', x: 500, y: 550, color: '#ffff00', isBall: true },
+            { id: 'BR', x: 500, y: 900, color: '#ff4757', isRunner: true } // Batter-runner starts at Home
+        ],
         targets: {
-            'P': {x: 500, y: 580, r: 60},
-            'C': {x: 750, y: 780, r: 70},
-            '1B': {x: 850, y: 650, r: 50},
-            '2B': {x: 500, y: 400, r: 60},
-            '3B': {x: 150, y: 650, r: 50},
-            'SS': {x: 480, y: 380, r: 60},
-            'LF': {x: 200, y: 250, r: 80},
-            'CF': {x: 500, y: 250, r: 80},
-            'RF': {x: 950, y: 580, r: 70},
-            'BALL': {x: 850, y: 650, r: 40}
+            'P': {x: 500, y: 580, r: 60}, 'C': {x: 750, y: 780, r: 70}, '1B': {x: 850, y: 650, r: 50},
+            '2B': {x: 500, y: 400, r: 60}, '3B': {x: 150, y: 650, r: 50}, 'SS': {x: 480, y: 380, r: 60},
+            'LF': {x: 200, y: 250, r: 80}, 'CF': {x: 500, y: 250, r: 80}, 'RF': {x: 950, y: 580, r: 70},
+            'BALL': {x: 850, y: 650, r: 40}, 'BR': {x: 850, y: 650, r: 55} // BR runs to 1st base
         },
         explanations: {
             'P': "Fields the ball clean and makes an accurate, controlled throw to First Base.",
@@ -30,60 +43,49 @@ const playbook = [
             '3B': "Holds ground at Third Base in case of an absolute baseline emergency.",
             'LF': "Backs up the left side of the infield track.",
             'CF': "Sprints into shallow center field to back up second base tracking lines.",
-            'BALL': "Must be thrown swiftly into the glove of the First Baseman at the bag."
+            'BALL': "Must be thrown swiftly into the glove of the First Baseman at the bag.",
+            'BR': "Sprints down the line as fast as possible to beat the throw to First Base."
         }
     },
     {
         title: "Level 1: Force at Second",
         situation: "Runner on 1st, 0 Outs",
+        initialSetup: [
+            ...baseDefense,
+            { id: 'BALL', x: 650, y: 450, color: '#ffff00', isBall: true }, // Ball starts at 2B's position
+            { id: 'R1', x: 850, y: 650, color: '#ff4757', isRunner: true },  // Runner starts on 1st Base
+            { id: 'BR', x: 500, y: 900, color: '#ff4757', isRunner: true }   // Batter-runner starts at Home
+        ],
         targets: {
-            'P': {x: 500, y: 520, r: 60},
-            'C': {x: 500, y: 900, r: 50},
-            '1B': {x: 850, y: 650, r: 50},
-            '2B': {x: 650, y: 450, r: 60},
-            '3B': {x: 150, y: 650, r: 50},
-            'SS': {x: 500, y: 400, r: 50},
-            'LF': {x: 250, y: 300, r: 80},
-            'CF': {x: 500, y: 250, r: 80},
-            'RF': {x: 900, y: 550, r: 80},
-            'BALL': {x: 500, y: 400, r: 40}
+            'P': {x: 500, y: 520, r: 60}, 'C': {x: 500, y: 900, r: 50}, '1B': {x: 850, y: 650, r: 50},
+            '2B': {x: 650, y: 450, r: 60}, '3B': {x: 150, y: 650, r: 50}, 'SS': {x: 500, y: 400, r: 50},
+            'LF': {x: 250, y: 300, r: 80}, 'CF': {x: 500, y: 250, r: 80}, 'RF': {x: 900, y: 550, r: 80},
+            'BALL': {x: 500, y: 400, r: 40}, 'R1': {x: 500, y: 400, r: 55}, 'BR': {x: 850, y: 650, r: 55}
         },
         explanations: {
-            'P': "Clears out of the throwing lane to Second Base.",
+            '2B': "Fields the ground ball clean and delivers a crisp, firm lead feed to the SS.",
+            'SS': "Sprints directly to cover Second Base bag to secure the force-out throw.",
+            'BALL': "Must be accurately tossed/thrown to Second Base for the primary lead force out.",
+            'R1': "Forced to run! Must sprint hard to Second Base before the defensive play arrives.",
+            'BR': "Sprints down the first base line to try and avoid a potential double play turn.",
+            '1B': "Stays anchored at First Base to receive a potential turn-throw from Second.",
+            'P': "Clears out of the active throwing lane running down toward Second base.",
             'C': "Stays home to protect the plate.",
-            '1B': "Holds the base runner at First or stays ready for a double-play return.",
-            'SS': "Sprints directly to Second Base to secure the force-out throw.",
-            '2B': "Fields the ground ball clean and delivers a firm feed to the SS.",
             '3B': "Guards Third Base bag securely.",
             'LF': "Backs up Second Base tracking behind the Shortstop.",
-            'CF': "Backs up the Centerfield track behind second.",
-            'RF': "Shifts down-line to back up First Base in case of a snap double-play throw.",
-            'BALL': "Must be accurately flipped/thrown to Second Base for the primary force out."
+            'CF': "Backs up the Centerfield track behind second base.",
+            'RF': "Shifts down-line to back up First Base assignments."
         }
     }
 ];
 
 let currentScenario = playbook[0];
-
-// 2. Base Coordinates System
-let players = [
-    { id: 'P',  x: 500, y: 550, startX: 500, startY: 550, color: '#f1c40f' },
-    { id: 'C',  x: 500, y: 900, startX: 500, startY: 900, color: '#f1c40f' },
-    { id: '1B', x: 800, y: 700, startX: 800, startY: 700, color: '#3498db' },
-    { id: '2B', x: 650, y: 450, startX: 650, startY: 450, color: '#3498db' },
-    { id: '3B', x: 200, y: 700, startX: 200, startY: 700, color: '#3498db' },
-    { id: 'SS', x: 350, y: 450, startX: 350, startY: 450, color: '#3498db' },
-    { id: 'LF', x: 150, y: 200, startX: 150, startY: 200, color: '#2ecc71' },
-    { id: 'CF', x: 500, y: 100, startX: 500, startY: 100, color: '#2ecc71' },
-    { id: 'RF', x: 850, y: 200, startX: 850, startY: 200, color: '#2ecc71' },
-    { id: 'BALL', x: 500, y: 550, startX: 500, startY: 550, color: '#ffff00', isBall: true }
-];
-
+let players = [];
 let isDragging = false;
 let activePlayer = null;
 
 function init() {
-    resize();
+    loadScenario(0);
     window.addEventListener('resize', resize);
     canvas.addEventListener('mousedown', startDrag);
     canvas.addEventListener('mousemove', drag);
@@ -91,7 +93,6 @@ function init() {
     canvas.addEventListener('touchstart', (e) => startDrag(e.touches[0]), {passive: false});
     canvas.addEventListener('touchmove', (e) => { e.preventDefault(); drag(e.touches[0]); }, {passive: false});
     canvas.addEventListener('touchend', endDrag);
-    render();
 }
 
 function resize() {
@@ -106,7 +107,14 @@ function startDrag(e) {
     const mouseX = (e.clientX - rect.left) / scale;
     const mouseY = (e.clientY - rect.top) / scale;
 
-    const sortedPlayers = [...players].sort((a, b) => (b.isBall ? 1 : -1));
+    // Prioritize clicking Ball, then Runners, then Fielders
+    const sortedPlayers = [...players].sort((a, b) => {
+        if (a.isBall) return -1;
+        if (b.isBall) return 1;
+        if (a.isRunner) return -1;
+        if (b.isRunner) return 1;
+        return 0;
+    });
     
     sortedPlayers.forEach(p => {
         const dist = Math.sqrt(Math.pow(mouseX - p.x, 2) + Math.pow(mouseY - p.y, 2));
@@ -131,7 +139,7 @@ function render() {
 
     players.forEach(p => {
         if (p.x !== p.startX || p.y !== p.startY) {
-            drawArrow(p.startX, p.startY, p.x, p.y, p.isBall);
+            drawArrow(p.startX, p.startY, p.x, p.y, p.isBall, p.isRunner);
         }
 
         // Draw Ghost Base Positions
@@ -142,14 +150,18 @@ function render() {
 
         // Draw Interactive Token
         ctx.beginPath();
-        ctx.arc(p.x * scale, p.y * scale, (p.isBall ? 15 : 25) * scale, 0, Math.PI * 2);
+        let tokenRadius = 25;
+        if (p.isBall) tokenRadius = 15;
+        if (p.isRunner) tokenRadius = 22;
+
+        ctx.arc(p.x * scale, p.y * scale, tokenRadius * scale, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.shadowBlur = 6; ctx.shadowColor = "rgba(0,0,0,0.4)";
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        ctx.fillStyle = "black";
-        ctx.font = `bold ${p.isBall ? 9 : 14 * scale}px sans-serif`;
+        ctx.fillStyle = p.isRunner ? "white" : "black";
+        ctx.font = `bold ${p.isBall ? 9 : 13 * scale}px sans-serif`;
         ctx.textAlign = "center";
         ctx.fillText(p.isBall ? "B" : p.id, p.x * scale, (p.y + 5) * scale);
     });
@@ -177,14 +189,19 @@ function drawField() {
     ctx.beginPath(); ctx.arc(500 * scale, 550 * scale, 75 * scale, 0, Math.PI*2); ctx.stroke();
 }
 
-function drawArrow(x1, y1, x2, y2, isBall) {
+function drawArrow(x1, y1, x2, y2, isBall, isRunner) {
     const angle = Math.atan2(y2 - y1, x2 - x1);
     const headlen = 12;
     ctx.beginPath();
+    
     ctx.setLineDash(isBall ? [4, 4] : [6, 4]);
     ctx.moveTo(x1 * scale, y1 * scale);
     ctx.lineTo(x2 * scale, y2 * scale);
-    ctx.strokeStyle = isBall ? "var(--softball-yellow)" : "white";
+    
+    if (isBall) ctx.strokeStyle = "var(--softball-yellow)";
+    else if (isRunner) ctx.strokeStyle = "var(--runner-red)";
+    else ctx.strokeStyle = "white";
+
     ctx.lineWidth = isBall ? 4 : 2.5;
     ctx.stroke();
     ctx.setLineDash([]);
@@ -195,7 +212,11 @@ function drawArrow(x1, y1, x2, y2, isBall) {
     ctx.lineTo((x2 - headlen * Math.cos(angle - Math.PI / 6)) * scale, (y2 - headlen * Math.sin(angle - Math.PI / 6)) * scale);
     ctx.lineTo((x2 - headlen * Math.cos(angle + Math.PI / 6)) * scale, (y2 - headlen * Math.sin(angle + Math.PI / 6)) * scale);
     ctx.closePath();
-    ctx.fillStyle = isBall ? "var(--softball-yellow)" : "white";
+    
+    if (isBall) ctx.fillStyle = "var(--softball-yellow)";
+    else if (isRunner) ctx.fillStyle = "var(--runner-red)";
+    else ctx.fillStyle = "white";
+    
     ctx.fill();
 }
 
@@ -203,7 +224,15 @@ function loadScenario(val) {
     currentScenario = playbook[val];
     document.getElementById('situation-tag').innerText = currentScenario.situation;
     document.getElementById('scenario-text').innerText = currentScenario.title;
-    resetField();
+    
+    // Deep clone state initialization
+    players = currentScenario.initialSetup.map(p => ({
+        ...p,
+        startX: p.x,
+        startY: p.y
+    }));
+    
+    resize();
 }
 
 function resetField() {
@@ -212,14 +241,12 @@ function resetField() {
 }
 
 function showSolution() {
-    // Instantly snap players & ball to targets
     players.forEach(p => {
         const target = currentScenario.targets[p.id];
         if (target) { p.x = target.x; p.y = target.y; }
     });
     render();
 
-    // Compile dynamic explanations template inside popup box
     const modal = document.getElementById('feedback-modal');
     const title = document.getElementById('feedback-title');
     const msg = document.getElementById('feedback-msg');
@@ -227,7 +254,9 @@ function showSolution() {
     title.innerText = "Master Coach Breakdown";
     let explanationHTML = `<div style="max-height: 280px; overflow-y: auto; padding-right: 5px;">`;
     for (let pos in currentScenario.explanations) {
-        explanationHTML += `<div class="explanation-row"><strong>${pos}:</strong> ${currentScenario.explanations[pos]}</div>`;
+        const isRun = players.find(pl => pl.id === pos)?.isRunner;
+        const lblClass = isRun ? 'class="runner-label"' : '';
+        explanationHTML += `<div class="explanation-row"><strong ${lblClass}>${pos}:</strong> ${currentScenario.explanations[pos]}</div>`;
     }
     explanationHTML += `</div>`;
     
@@ -241,7 +270,13 @@ function checkWork() {
         const target = currentScenario.targets[p.id];
         if (target) {
             const d = Math.sqrt(Math.pow(p.x - target.x, 2) + Math.pow(p.y - target.y, 2));
-            if (d > target.r) mistakes.push(p.isBall ? "Ball Throw" : p.id);
+            if (d > target.r) {
+                let name = p.id;
+                if (p.isBall) name = "Ball Throw";
+                if (p.id === "BR") name = "Batter-Runner (BR)";
+                if (p.id === "R1") name = "Runner on 1st (R1)";
+                mistakes.push(name);
+            }
         }
     });
     
@@ -250,13 +285,14 @@ function checkWork() {
     
     if (mistakes.length === 0) {
         document.getElementById('feedback-title').innerText = "Perfect Defense! 🌟";
-        document.getElementById('feedback-msg').innerHTML = "<p style='text-align:center;'>Incredible assignment accuracy! Every single player executed their backing up and coverage assignments perfectly.</p>";
+        document.getElementById('feedback-msg').innerHTML = "<p style='text-align:center;'>Incredible assignment accuracy! Every single player and base runner was positioned flawlessly.</p>";
     } else {
         document.getElementById('feedback-title').innerText = "Field Adjustments Needed";
         document.getElementById('feedback-msg').innerHTML = `<p style='text-align:center;'>Check your movement vectors for: <br><br><strong style="color:#ff4757;">${mistakes.join(", ")}</strong></p>`;
     }
 }
 
+function windowClickCheck(e) { /* Reserved for popup edge clicking hooks if needed */ }
 function closeModal() { document.getElementById('feedback-modal').classList.add('hidden'); }
 
 init();
