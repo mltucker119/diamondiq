@@ -37,71 +37,47 @@ const playbook = [
     },
     {
         title: "Level 2: Single to LF (Cutoffs)", situation: "Runner on 1st, 1 Out",
-        initialSetup: [
-            ...baseDefense,
-            { id: 'BALL', x: 200, y: 220, isBall: true }, // Ball starts in Left Field
-            { id: 'R1', x: 700, y: 600, isRunner: true },   // Runner on 1st
-            { id: 'BR', x: 500, y: 800, isRunner: true }    // Batter-runner
-        ],
-        targets: {
-            'LF': {x: 200, y: 220, r: 40},
-            'CF': {x: 310, y: 190, r: 60}, // CF backs up LF
-            'SS': {x: 290, y: 390, r: 45}, // SS is the CUTOFF to 3rd base
-            '3B': {x: 300, y: 600, r: 40}, // 3B covers third bag
-            '2B': {x: 500, y: 400, r: 40}, // 2B covers second bag
-            '1B': {x: 700, y: 600, r: 45}, // 1B covers first bag
-            'P': {x: 200, y: 520, r: 60},  // Pitcher backs up 3rd base out of bounds line
-            'C': {x: 500, y: 860, r: 40},
-            'RF': {x: 680, y: 350, r: 70}, // RF rotates deep infield to back up 2nd base throw
-            'BALL': {x: 290, y: 390, r: 40}, // Ball thrown to the Cutoff (SS)
-            'R1': {x: 300, y: 600, r: 50},  // Runner 1 advances to 3rd base
-            'BR': {x: 500, y: 400, r: 60}   // Batter-runner takes 2nd base
-        },
-        explanations: {
-            'LF': "Chases down the base hit into the outfield grass and fires a hard throw to the cutoff man.",
-            'SS': "Crucial Play! Runs out into the grass to become the CUTOFF man, lining up directly between LF and 3rd Base.",
-            'CF': "Sprints over behind the Left Fielder to prevent a catastrophic misplay to the fence.",
-            'P': "Sprints deep into foul territory down the 3rd base line to back up the impending throw to 3B.",
-            '3B': "Stays anchored to Third Base bag waiting for the cutoff relay throw.",
-            '2B': "Sprints over to cover Second Base bag because the Shortstop left to be the cutoff.",
-            'RF': "Comes all the way into the shallow right-center field to back up any wild throws to 2nd base.",
-            'BALL': "The ball must go from the Left Fielder straight into the hands of the Cutoff Man (SS).",
-            'R1': "Sees the ball hit to the outfield and aggressively advances from 1st base all the way around to 3rd."
-        }
+        initialSetup: [ ...baseDefense, { id: 'BALL', x: 200, y: 220, isBall: true }, { id: 'R1', x: 700, y: 600, isRunner: true }, { id: 'BR', x: 500, y: 800, isRunner: true } ],
+        targets: { 'LF': {x: 200, y: 220, r: 40}, 'CF': {x: 310, y: 190, r: 60}, 'SS': {x: 290, y: 390, r: 45}, '3B': {x: 300, y: 600, r: 40}, '2B': {x: 500, y: 400, r: 40}, '1B': {x: 700, y: 600, r: 45}, 'P': {x: 200, y: 520, r: 60}, 'C': {x: 500, y: 860, r: 40}, 'RF': {x: 680, y: 350, r: 70}, 'BALL': {x: 290, y: 390, r: 40}, 'R1': {x: 300, y: 600, r: 50}, 'BR': {x: 500, y: 400, r: 60} },
+        explanations: { 'LF': "Chases down the hit and fires a hard throw to the cutoff man.", 'SS': "Runs out into the grass to become the CUTOFF man between LF and 3rd Base.", 'CF': "Sprints over behind the Left Fielder to provide backup tracking.", '2B': "Sprints over to cover Second Base bag because the SS is acting as cutoff.", 'BALL': "The ball must go from the Left Fielder straight into the hands of the Cutoff Man (SS)." }
     },
     {
         title: "Level 2: Bunt Coverage (Rotation)", situation: "Runner on 1st, 0 Outs",
-        initialSetup: [
-            ...baseDefense,
-            { id: 'BALL', x: 420, y: 720, isBall: true }, // Ball bunted between P and 1B
-            { id: 'R1', x: 700, y: 600, isRunner: true },
-            { id: 'BR', x: 500, y: 800, isRunner: true }
-        ],
-        targets: {
-            '1B': {x: 420, y: 720, r: 45}, // 1B charges the bunt
-            'P': {x: 450, y: 680, r: 50},  // Pitcher charges the bunt
-            '3B': {x: 300, y: 600, r: 40}, // 3B stays home to protect lead runner
-            '2B': {x: 700, y: 600, r: 40}, // 2B ROTATES to cover 1st base bag!
-            'SS': {x: 500, y: 400, r: 45}, // SS covers 2nd base bag
-            'C': {x: 480, y: 780, r: 50},  // Catcher directs traffic or fields close bunt
-            'LF': {x: 240, y: 450, r: 70}, // LF backs up 3rd base track
-            'CF': {x: 500, y: 260, r: 70}, // CF backs up 2nd base throw line
-            'RF': {x: 820, y: 480, r: 70}, // RF backs up the throw to 1st base
-            'BALL': {x: 420, y: 720, r: 35}, // Ball fielded at bunt site
-            'R1': {x: 500, y: 400, r: 55},
-            'BR': {x: 700, y: 600, r: 55}
-        },
-        explanations: {
-            '1B': "CHARGES! Must rush hard off the first base bag to field the bunted ball.",
-            '2B': "ROTATION! Because the 1B charged, the Second Baseman must sprint over to cover First Base bag.",
-            'SS': "Sprints directly to cover Second Base bag to monitor the advancing lead runner.",
-            '3B': "Must stay home to protect the Third Base bag in case the lead runner tries to make a wild advance.",
-            'RF': "Sprints deep up the first base line foul territory to back up the throw arriving from the bunt site.",
-            'BR': "Lays down a sacrifice bunt and sprints hard to 1st base to advance their teammate."
-        }
+        initialSetup: [ ...baseDefense, { id: 'BALL', x: 620, y: 700, isBall: true }, { id: 'R1', x: 700, y: 600, isRunner: true }, { id: 'BR', x: 500, y: 800, isRunner: true } ],
+        targets: { '1B': {x: 620, y: 700, r: 45}, 'P': {x: 560, y: 680, r: 50}, '3B': {x: 300, y: 600, r: 40}, '2B': {x: 700, y: 600, r: 40}, 'SS': {x: 500, y: 400, r: 45}, 'C': {x: 480, y: 780, r: 50}, 'LF': {x: 240, y: 450, r: 70}, 'CF': {x: 500, y: 260, r: 70}, 'RF': {x: 820, y: 480, r: 70}, 'BALL': {x: 620, y: 700, r: 35}, 'R1': {x: 500, y: 400, r: 55}, 'BR': {x: 700, y: 600, r: 55} },
+        explanations: { '1B': "CHARGES! Must rush hard off the first base bag to field the bunted ball.", '2B': "ROTATION! Because 1B charged, the Second Baseman must sprint over to cover First Base bag.", 'SS': "Sprints directly to cover Second Base bag to monitor the advancing lead runner.", '3B': "Must stay home to protect Third Base bag in case the runner attempts a secondary advance.", 'RF': "Sprints deep into right-field foul territory to back up the throw arriving at 1st base." }
+    },
+    {
+        title: "Level 1: Grounder to 1B (3-1 Play)", situation: "Bases Empty, 1 Out",
+        initialSetup: [ ...baseDefense, { id: 'BALL', x: 730, y: 630, isBall: true }, { id: 'BR', x: 500, y: 800, isRunner: true } ],
+        targets: { '1B': {x: 760, y: 590, r: 45}, 'P': {x: 700, y: 600, r: 40}, '2B': {x: 740, y: 530, r: 50}, '3B': {x: 300, y: 600, r: 40}, 'SS': {x: 380, y: 480, r: 50}, 'C': {x: 560, y: 760, r: 60}, 'LF': {x: 200, y: 220, r: 80}, 'CF': {x: 500, y: 130, r: 80}, 'RF': {x: 850, y: 450, r: 60}, 'BALL': {x: 700, y: 600, r: 35}, 'BR': {x: 700, y: 600, r: 45} },
+        explanations: { '1B': "Pulled off the bag to field the ground ball wide down the first base line.", 'P': "PITCHER COVERS! Sprints directly to the First Base bag to receive the toss from 1B.", '2B': "Sprints down-line toward first base to provide baseline backup support.", 'RF': "Sprints aggressively into shallow right foul territory to back up the throw to the Pitcher.", 'BALL': "Must be cleanly tossed by 1B into the glove of the Pitcher running across the 1st base bag." }
+    },
+    {
+        title: "Level 1: Fly Ball to LF", situation: "Bases Empty, 1 Out",
+        initialSetup: [ ...baseDefense, { id: 'BALL', x: 200, y: 220, isBall: true }, { id: 'BR', x: 500, y: 800, isRunner: true } ],
+        targets: { 'LF': {x: 200, y: 220, r: 40}, 'CF': {x: 350, y: 170, r: 60}, 'SS': {x: 260, y: 340, r: 50}, '3B': {x: 300, y: 600, r: 40}, '2B': {x: 500, y: 400, r: 50}, '1B': {x: 700, y: 600, r: 40}, 'P': {x: 450, y: 580, r: 50}, 'C': {x: 500, y: 860, r: 40}, 'RF': {x: 800, y: 220, r: 80}, 'BALL': {x: 200, y: 220, r: 35}, 'BR': {x: 620, y: 680, r: 65} },
+        explanations: { 'LF': "Tracks the deep fly ball leftward, camps underneath, and secures the out.", 'CF': "Sprints deep over toward left-center field to back up the Left Fielder.", 'SS': "Goes out into shallow left field to line up as a cutoff or safety relay point.", '3B': "Holds their ground at Third Base.", 'BALL': "Tracks directly through the sky straight into the glove of the Left Fielder." }
+    },
+    {
+        title: "Level 2: Force at 3rd", situation: "Runners on 1st & 2nd, 1 Out",
+        initialSetup: [ ...baseDefense, { id: 'BALL', x: 270, y: 630, isBall: true }, { id: 'R1', x: 700, y: 600, isRunner: true }, { id: 'R2', x: 500, y: 400, isRunner: true }, { id: 'BR', x: 500, y: 800, isRunner: true } ],
+        targets: { '3B': {x: 300, y: 600, r: 40}, 'SS': {x: 260, y: 500, r: 50}, 'P': {x: 260, y: 660, r: 50}, '2B': {x: 620, y: 480, r: 50}, '1B': {x: 700, y: 600, r: 40}, 'C': {x: 500, y: 860, r: 40}, 'LF': {x: 180, y: 450, r: 70}, 'CF': {x: 420, y: 260, r: 70}, 'RF': {x: 800, y: 450, r: 80}, 'BALL': {x: 300, y: 600, r: 35}, 'R2': {x: 300, y: 600, r: 45}, 'R1': {x: 500, y: 400, r: 55}, 'BR': {x: 700, y: 600, r: 55} },
+        explanations: { '3B': "Fields the hot grounder to the left side and steps directly on Third Base to get the lead out.", 'SS': "Sprints behind 3B to act as an immediate backup for the play at the bag.", 'P': "Moves toward the third-base baseline to back up any subsequent throws.", 'BALL': "Stays secured in the glove of the 3B as they apply the force stamp onto Third base.", 'R2': "Forced runner! Must attempt to beat the infield grounder to 3rd but gets forced out." }
+    },
+    {
+        title: "Level 2: Steal Attempt at 2nd", situation: "Runner on 1st, 0 Outs",
+        initialSetup: [ ...baseDefense, { id: 'BALL', x: 500, y: 860, isBall: true }, { id: 'R1', x: 700, y: 600, isRunner: true } ],
+        targets: { 'C': {x: 500, y: 860, r: 40}, 'SS': {x: 500, y: 400, r: 40}, '2B': {x: 540, y: 350, r: 45}, 'CF': {x: 500, y: 200, r: 60}, 'P': {x: 500, y: 600, r: 40}, '1B': {x: 700, y: 600, r: 40}, '3B': {x: 300, y: 600, r: 40}, 'LF': {x: 250, y: 300, r: 80}, 'RF': {x: 750, y: 350, r: 80}, 'BALL': {x: 500, y: 400, r: 35}, 'R1': {x: 500, y: 400, r: 45} },
+        explanations: { 'C': "Pops up instantly from a crouch and fires a laser strike directly down to Second Base.", 'SS': "STEAL COVERAGE! Sprints to cover the Second Base bag, catches the throw, and applies a quick tag.", '2B': "Sprints down directly behind the Shortstop to back up the high-velocity throw from C.", 'CF': "Sprints into shallow center field to back up second base in case the ball sails into the outfield.", 'BALL': "Fires from Home Plate directly into the glove of the Shortstop anchoring the 2nd base bag." }
+    },
+    {
+        title: "Level 2: Sac Fly to LF (Tag Up)", situation: "Runner on 3rd, 1 Out",
+        initialSetup: [ ...baseDefense, { id: 'BALL', x: 150, y: 180, isBall: true }, { id: 'R3', x: 300, y: 600, isRunner: true }, { id: 'BR', x: 500, y: 800, isRunner: true } ],
+        targets: { 'LF': {x: 150, y: 180, r: 40}, 'CF': {x: 320, y: 160, r: 70}, 'SS': {x: 280, y: 520, r: 45}, '3B': {x: 300, y: 600, r: 40}, 'C': {x: 500, y: 860, r: 40}, 'P': {x: 500, y: 880, r: 50}, '1B': {x: 700, y: 600, r: 40}, '2B': {x: 500, y: 400, r: 50}, 'RF': {x: 800, y: 350, r: 80}, 'BALL': {x: 500, y: 860, r: 45}, 'R3': {x: 500, y: 860, r: 45}, 'BR': {x: 620, y: 680, r: 70} },
+        explanations: { 'LF': "Catches the fly ball and immediately unleashes a deep, powerful throw toward Home Plate.", 'SS': "Acts as the cutoff alignment man stationed halfway down the line between LF and Home.", 'P': "Sprints directly behind the Catcher at Home Plate to back up the deep outfield throw.", 'C': "Anchors Home Plate bag, prepares to catch the ball, and blocks the sliding runner.", 'BALL': "Fires from the Left Fielder all the way home to try and throw out the tagging base runner.", 'R3': "TAG UP! Waits on 3rd base bag until the LF touches the ball, then sprints hard to score at Home." }
     }
 ];
-
 let currentScenario = playbook[0];
 let players = [];
 let isDragging = false;
